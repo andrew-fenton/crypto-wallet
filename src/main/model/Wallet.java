@@ -4,9 +4,8 @@ package model;
 public class Wallet {
 
     private String name;
-    private double totalBalance;
     private int id;
-
+    private double totalBalance;
     private double ethBalance;
 
     // EFFECTS: creates a new crypto wallet with name, ID, and balance of 0.
@@ -16,14 +15,14 @@ public class Wallet {
         this.totalBalance = 0;
     }
 
-    // REQUIRES: amount > 0
+    // REQUIRES: amount >= 0
     // MODIFIES: this
     // EFFECTS: adds amount of money to wallet total balance
-    public void addBalance(double amount) {
+    public void deposit(double amount) {
         this.totalBalance += amount;
     }
 
-    // REQUIRES: amount > 0
+    // REQUIRES: amount >= 0
     // MODIFIES: this
     // EFFECTS: if totalBalance >= (currency.getPrice() * amount)
     //              - add amount to currencyBalance
@@ -41,7 +40,7 @@ public class Wallet {
         return false;
     }
 
-    // REQUIRES: amount > 0
+    // REQUIRES: amount >= 0
     // MODIFIES: this
     // EFFECTS: if balance of currency >= amount
     //             - subtract amount from currencyBalance

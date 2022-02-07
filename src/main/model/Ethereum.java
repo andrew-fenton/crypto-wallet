@@ -24,7 +24,7 @@ public class Ethereum implements Currency {
     }
 
     @Override
-    // REQUIRES: amount > 0 && insufficient balance checks are already done
+    // REQUIRES: amount >= 0 && insufficient balance checks are already done
     // MODIFIES: wallet
     // EFFECTS: adds amount to wallet currency balance
     public void buy(Wallet wallet, double amount) {
@@ -33,11 +33,11 @@ public class Ethereum implements Currency {
     }
 
     @Override
-    // REQUIRES: amount > 0 && insufficient balance checks are already done
+    // REQUIRES: amount >= 0 && insufficient balance checks are already done
     // MODIFIES: wallet
     // EFFECTS: subtracts amount from wallet currency balance
     public void sell(Wallet wallet, double amount) {
         wallet.setEthBalance(wallet.getEthBalance() - amount);
-        wallet.addBalance(this.price * amount);
+        wallet.deposit(this.price * amount);
     }
 }

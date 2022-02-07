@@ -1,8 +1,5 @@
 package model;
 
-import model.Currency;
-import model.Ethereum;
-import model.Wallet;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
@@ -27,10 +24,10 @@ public class WalletTest {
 
     @Test
     public void testAddBalance() {
-        wallet.addBalance(1000);
+        wallet.deposit(1000);
         assertEquals(1000, wallet.getTotalBalance());
 
-        wallet.addBalance(500);
+        wallet.deposit(500);
         assertEquals(1500, wallet.getTotalBalance());
     }
 
@@ -45,7 +42,7 @@ public class WalletTest {
 
     @Test
     public void testBuySufficientBalance() {
-        wallet.addBalance(100);
+        wallet.deposit(100);
         assertTrue(wallet.buy(eth, 10));
         assertEquals(10, wallet.getEthBalance());
         assertEquals(0, wallet.getTotalBalance());
@@ -53,7 +50,7 @@ public class WalletTest {
 
     @Test
     public void testBuyMultiple() {
-        wallet.addBalance(10000);
+        wallet.deposit(10000);
         assertTrue(wallet.buy(eth, 3));
         assertEquals(3, wallet.getEthBalance());
         assertEquals(10000 - (3 * eth.getPrice()), wallet.getTotalBalance());
