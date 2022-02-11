@@ -32,4 +32,9 @@ public class EthereumTest {
         eth.sell(wallet, 100);
         assertEquals(0, wallet.getEthBalance());
     }
+
+    @Test
+    public void testGetName() {
+        assertEquals(eth.getName(), "Ethereum");
+    }
 }
