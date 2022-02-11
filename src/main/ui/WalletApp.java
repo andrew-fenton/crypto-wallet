@@ -1,22 +1,20 @@
 package ui;
 
-import model.Currency;
 import model.Ethereum;
 import model.Wallet;
 
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Scanner;
 
 // Wallet application -- referenced TellerApp example
 public class WalletApp {
 
     private Wallet wallet;
+    private ArrayList<Wallet> wallets;
     private Ethereum eth;
     private Scanner input;
-    private ArrayList<Wallet> wallets;
 
-    // runs the wallet application
+    // EFFECTS: runs the wallet application
     public WalletApp() {
         runWallet();
     }
@@ -44,36 +42,52 @@ public class WalletApp {
     private void init() {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
+        wallets = new ArrayList<>();
 
-        System.out.println("\n Enter name: ");
-        String name = input.next();
-        System.out.println("\n Enter ID: ");
-        int id = input.nextInt();
+        register();
 
-        wallet = new Wallet(name, id);
         eth = new Ethereum(105.1);
     }
 
+    // EFFECTS: creates a new wallet
+    private void register() {
+        System.out.println("\n Enter name: ");
+        String name = input.next();
+        int id = wallets.size();
+
+        wallet = new Wallet(name, id);
+        wallets.add(id, wallet);
+    }
+
     // EFFECTS: displays menu
-    public void displayMenu() {
-        System.out.println("\n Select by typing name:");
+    private void displayMenu() {
+        System.out.println("\n Current wallet: " + wallet.getName() + " | ID: " + wallet.getID());
         System.out.println("\t Buy");
         System.out.println("\t Sell");
         System.out.println("\t Deposit");
-        System.out.println("\t View Balances");
+        System.out.println("\t Balances");
+        System.out.println("\t Register - create new wallet");
+        System.out.println("\t Wallets - show existing wallets");
+        System.out.println("\t Select - change wallet");
         System.out.println("\t Quit");
     }
 
     // EFFECTS: checks if user input matches any option on the menu
-    public void processCommand(String command) {
+    private void processCommand(String command) {
         if (command.equalsIgnoreCase("buy")) {
             doBuy();
         } else if (command.equalsIgnoreCase("sell")) {
             doSell();
         } else if (command.equalsIgnoreCase("deposit")) {
             doDeposit();
-        } else if (command.equalsIgnoreCase("view balances")) {
+        } else if (command.equalsIgnoreCase("balances")) {
             showBalances();
+        } else if (command.equalsIgnoreCase("register")) {
+            register();
+        } else if (command.equalsIgnoreCase("wallets")) {
+            showWallets();
+        } else if (command.equalsIgnoreCase("select")) {
+            selectWallet();
         } else {
             System.out.println("Invalid input.");
         }
@@ -81,7 +95,7 @@ public class WalletApp {
 
     // MODIFIES: this
     // EFFECTS: conducts a deposit
-    public void doDeposit() {
+    private void doDeposit() {
         showBalances();
         System.out.println("Enter amount to deposit:");
         double amount = input.nextDouble();
@@ -97,7 +111,7 @@ public class WalletApp {
 
     // MODIFIES: this
     // EFFECTS: conducts a purchase of cryptocurrency
-    public void doBuy() {
+    private void doBuy() {
         showBalances();
         System.out.println("Enter type of currency to buy: ");
         String currency = input.next();
@@ -121,7 +135,7 @@ public class WalletApp {
 
     // MODIFIES: this
     // EFFECTS: conducts a sale of cryptocurrency
-    public void doSell() {
+    private void doSell() {
         showBalances();
         System.out.println("Enter type of currency to sell: ");
         String currency = input.next();
@@ -143,11 +157,36 @@ public class WalletApp {
         }
     }
 
-
     // EFFECTS: shows all balances in wallet
-    public void showBalances() {
+    private void showBalances() {
         System.out.println("\n Balances:");
         System.out.println("\t Total Balance: " + wallet.getTotalBalance());
         System.out.println("\t Ethereum Balance: " + wallet.getEthBalance());
+    }
+
+    // EFFECTS: shows all wallets
+    private void showWallets() {
+        System.out.println("\n Wallets: ");
+        int count = 1;
+
+        for (Wallet w : wallets) {
+            System.out.println(count + ") Name: " + w.getName() + "\t ID: " + w.getID());
+            count++;
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: selects wallet from wallets
+    private void selectWallet() {
+        showWallets();
+        System.out.println("Select wallet by typing wallet ID: ");
+        int id = input.nextInt();
+
+        if (id < wallets.size() && id >= 0) {
+            wallet = wallets.get(id);
+            System.out.println("Wallet Selected: " + wallet.getName() + " - " + wallet.getID());
+        } else {
+            System.out.println("Enter a valid wallet ID.");
+        }
     }
 }

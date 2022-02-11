@@ -31,10 +31,8 @@ public class Wallet {
     //          - else return false
     public boolean buy(Currency currency, double amount) {
         if (totalBalance >= (currency.getPrice() * amount)) {
-            if (currency.getName().equals("Ethereum")) {
-                currency.buy(this, amount);
-                return true;
-            }
+            currency.buy(this, amount);
+            return true;
         }
 
         return false;
@@ -48,7 +46,7 @@ public class Wallet {
     //             - return true
     //          - else return false
     public boolean sell(Currency currency, double amount) {
-        if (ethBalance >= amount && currency.getName().equals("Ethereum")) {
+        if (ethBalance >= amount) {
             currency.sell(this, amount);
             return true;
         }

@@ -13,17 +13,6 @@ public class Ethereum implements Currency {
     }
 
     @Override
-    // EFFECTS: returns price of currency
-    public double getPrice() {
-        return this.price;
-    }
-
-    @Override
-    public String getName() {
-        return this.name;
-    }
-
-    @Override
     // REQUIRES: amount >= 0 && insufficient balance checks are already done
     // MODIFIES: wallet
     // EFFECTS: adds amount to wallet currency balance
@@ -39,5 +28,17 @@ public class Ethereum implements Currency {
     public void sell(Wallet wallet, double amount) {
         wallet.setEthBalance(wallet.getEthBalance() - amount);
         wallet.deposit(this.price * amount);
+    }
+
+    @Override
+    // EFFECTS: returns price of currency
+    public double getPrice() {
+        return this.price;
+    }
+
+    @Override
+    // EFFECTS: returns name of currency
+    public String getName() {
+        return this.name;
     }
 }
