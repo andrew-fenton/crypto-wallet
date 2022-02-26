@@ -1,7 +1,9 @@
 package ui;
 
-import model.Ethereum;
-import model.Wallet;
+import exceptions.BalanceNotFound;
+import exceptions.BalancesIsEmpty;
+import exceptions.CurrencyNotFound;
+import model.*;
 
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -9,10 +11,15 @@ import java.util.Scanner;
 // Wallet application -- referenced TellerApp example
 public class WalletApp {
 
+    private Account account;
     private Wallet wallet;
     private ArrayList<Wallet> wallets;
-    private Ethereum eth;
     private Scanner input;
+
+    // Currencies
+    private Bitcoin btc;
+    private Ethereum eth;
+    private Polkadot dot;
 
     // EFFECTS: runs the wallet application
     public WalletApp() {
@@ -42,20 +49,51 @@ public class WalletApp {
     private void init() {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
-        wallets = new ArrayList<>();
 
-        register();
-
+        // Initialize Currencies
+        btc = new Bitcoin(1000);
         eth = new Ethereum(105.1);
+        dot = new Polkadot(10.5);
+
+        initRegister();
     }
 
-    // EFFECTS: creates a new wallet
-    private void register() {
-        System.out.println("\n Enter name: ");
+    // REQUIRES: must add all instantiated balances
+    // EFFECTS: adds instantiated balances to wallet balance list on registration
+    private void initBalances() {
+        wallet.addBalance(new Balance(btc));
+        wallet.addBalance(new Balance(eth));
+        wallet.addBalance(new Balance(dot));
+    }
+
+    // MODIFIES: this
+    // EFFECTS: creates a new account and wallet
+    private void initRegister() {
+        System.out.println("\n Enter account name: ");
+        String accountName = input.next();
+        account = new Account(accountName);
+        wallets = account.getWallets();
+
+        System.out.println("\n Enter wallet name: ");
         String name = input.next();
         int id = wallets.size();
 
         wallet = new Wallet(name, id);
+        initBalances();
+        wallets.add(id, wallet);
+    }
+
+    // MODIFIES: this
+    // EFFECTS: registers a new wallet
+    private void register() {
+        wallets = account.getWallets();
+
+        System.out.println("\n Enter wallet name: ");
+        String name = input.next();
+        int id = wallets.size();
+
+        wallet = new Wallet(name, id);
+        initBalances();
         wallets.add(id, wallet);
     }
 
@@ -93,6 +131,7 @@ public class WalletApp {
         }
     }
 
+    // REQUIRES: must input a number
     // MODIFIES: this
     // EFFECTS: conducts a deposit
     private void doDeposit() {
@@ -109,59 +148,75 @@ public class WalletApp {
         }
     }
 
+    // REQUIRES: must input string for type of currency and number for amount
     // MODIFIES: this
     // EFFECTS: conducts a purchase of cryptocurrency
     private void doBuy() {
         showBalances();
         System.out.println("Enter type of currency to buy: ");
-        String currency = input.next();
+        String currencyInput = input.next();
         System.out.println("Enter amount to buy: ");
         double amount = input.nextDouble();
 
-        boolean sufficientFunds = wallet.getTotalBalance() >= (amount * eth.getPrice());
+        try {
+            Currency currency = matchCurrencyToInput(currencyInput);
+            double cost = (selectBalance(currencyInput).getCurrency().getPrice() * amount);
+            boolean sufficientFunds = (wallet.getDollarBalance() >= cost);
 
-        if (currency.equalsIgnoreCase("ethereum") && amount >= 0 && sufficientFunds) {
-            wallet.buy(eth, amount);
-            System.out.println("Purchase completed.");
-            showBalances();
-        } else if (amount < 0) {
-            System.out.println("Amount must be greater than or equal to 0.");
-        } else if (!sufficientFunds) {
-            System.out.println("Insufficient funds.");
-        } else {
-            System.out.println("Currency, " + currency + ", was not found.");
+            if (!sufficientFunds) {
+                System.out.println("Insufficient funds.");
+            } else if (amount < 0) {
+                System.out.println("Amount must be greater than or equal to 0.");
+            } else {
+                wallet.buy(currency, amount);
+                System.out.println("Purchase completed.");
+                showBalances();
+            }
+        } catch (CurrencyNotFound e) {
+            System.err.println("Currency, " + currencyInput + ", was not found.");
+        } catch (BalancesIsEmpty | BalanceNotFound e) {
+            System.err.println("Balance list is empty or balance does not exist in wallet.");
         }
     }
 
+    // REQUIRES: must input string for type of currency and number for amount
     // MODIFIES: this
     // EFFECTS: conducts a sale of cryptocurrency
     private void doSell() {
         showBalances();
         System.out.println("Enter type of currency to sell: ");
-        String currency = input.next();
+        String currencyInput = input.next();
         System.out.println("Enter amount to sell: ");
         double amount = input.nextDouble();
 
-        boolean sufficientFunds = wallet.getEthBalance() >= amount;
+        try {
+            Currency currency = matchCurrencyToInput(currencyInput);
+            boolean sufficientFunds = selectBalance(currencyInput).getBalance() >= amount;
 
-        if (currency.equalsIgnoreCase("ethereum") && amount >= 0 && sufficientFunds) {
-            wallet.sell(eth, amount);
-            System.out.println("Sale completed.");
-            showBalances();
-        } else if (amount < 0) {
-            System.out.println("Amount must be greater than or equal to 0.");
-        } else if (!sufficientFunds) {
-            System.out.println("Insufficient funds.");
-        } else {
-            System.out.println("Currency, " + currency + ", was not found.");
+            if (!sufficientFunds) {
+                System.out.println("Insufficient funds.");
+            } else if (amount < 0) {
+                System.out.println("Amount must be greater than or equal to 0.");
+            } else {
+                wallet.sell(currency, amount);
+                System.out.println("Sale completed.");
+                showBalances();
+            }
+        } catch (CurrencyNotFound e) {
+            System.err.println("Currency, " + currencyInput + ", was not found.");
+        } catch (BalancesIsEmpty | BalanceNotFound e) {
+            System.err.println("Balance list is empty or balance does not exist in wallet.");
         }
     }
 
     // EFFECTS: shows all balances in wallet
     private void showBalances() {
         System.out.println("\n Balances:");
-        System.out.println("\t Total Balance: " + wallet.getTotalBalance());
-        System.out.println("\t Ethereum Balance: " + wallet.getEthBalance());
+        System.out.println("\t Total Balance: " + wallet.getDollarBalance());
+
+        for (Balance b : wallet.getBalances()) {
+            System.out.println("\t " + b.getCurrency().getName() + " Balance: " + b.getBalance());
+        }
     }
 
     // EFFECTS: shows all wallets
@@ -188,5 +243,24 @@ public class WalletApp {
         } else {
             System.out.println("Enter a valid wallet ID.");
         }
+    }
+
+    // EFFECTS: matches string input to existing currency and returns it
+    private Balance selectBalance(String input) throws BalancesIsEmpty {
+        for (Balance b : wallet.getBalances()) {
+            if (b.getCurrency().getName().equalsIgnoreCase(input)) {
+                return b;
+            }
+        }
+        throw new BalancesIsEmpty();
+    }
+
+    private Currency matchCurrencyToInput(String input) throws CurrencyNotFound {
+        for (Balance b : wallet.getBalances()) {
+            if (b.getCurrency().getName().equalsIgnoreCase(input)) {
+                return b.getCurrency();
+            }
+        }
+        throw new CurrencyNotFound();
     }
 }

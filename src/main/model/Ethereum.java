@@ -1,6 +1,6 @@
 package model;
 
-// Represents a type of currency
+// Represents Ethereum currency
 public class Ethereum implements Currency {
 
     private String name;
@@ -10,24 +10,6 @@ public class Ethereum implements Currency {
     public Ethereum(double price) {
         this.name = "Ethereum";
         this.price = price;
-    }
-
-    @Override
-    // REQUIRES: amount >= 0 && insufficient balance checks are already done
-    // MODIFIES: wallet
-    // EFFECTS: adds amount to wallet currency balance
-    public void buy(Wallet wallet, double amount) {
-        wallet.addEthBalance(amount);
-        wallet.setTotalBalance(wallet.getTotalBalance() - this.price * amount);
-    }
-
-    @Override
-    // REQUIRES: amount >= 0 && insufficient balance checks are already done
-    // MODIFIES: wallet
-    // EFFECTS: subtracts amount from wallet currency balance
-    public void sell(Wallet wallet, double amount) {
-        wallet.setEthBalance(wallet.getEthBalance() - amount);
-        wallet.deposit(this.price * amount);
     }
 
     @Override
