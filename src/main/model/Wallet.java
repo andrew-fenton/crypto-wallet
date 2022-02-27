@@ -36,11 +36,16 @@ public class Wallet {
     //          - else return false
     public boolean buy(Currency currency, double amount) throws BalancesIsEmpty, BalanceNotFound {
         try {
-            if (dollarBalance >= (currency.getPrice() * amount)) {
-                addToBalance(currency, amount);
-                dollarBalance -= (currency.getPrice() * amount);
-                return true;
+            Balance balance = selectBalance(currency);
+
+            if (amount >= 0) {
+                if (dollarBalance >= (currency.getPrice() * amount)) {
+                    balance.incrementBalance(amount);
+                    dollarBalance -= (currency.getPrice() * amount);
+                    return true;
+                }
             }
+
             return false;
         } catch (BalancesIsEmpty | BalanceNotFound e) {
             throw e;
@@ -58,10 +63,12 @@ public class Wallet {
         try {
             Balance balance = selectBalance(currency);
 
-            if (balance.getBalance() >= amount) {
-                balance.reduceBalance(amount);
-                dollarBalance += (currency.getPrice() * amount);
-                return true;
+            if (amount >= 0) {
+                if (balance.getBalance() >= amount) {
+                    balance.reduceBalance(amount);
+                    dollarBalance += (currency.getPrice() * amount);
+                    return true;
+                }
             }
             return false;
         } catch (BalancesIsEmpty | BalanceNotFound e) {
@@ -77,9 +84,9 @@ public class Wallet {
                     return b;
                 }
             }
-            throw new BalanceNotFound();
+            throw new BalanceNotFound("Balance not found.");
         }
-        throw new BalancesIsEmpty();
+        throw new BalancesIsEmpty("Balances is empty.");
     }
 
     // EFFECTS: returns wallet name
@@ -115,7 +122,7 @@ public class Wallet {
     // REQUIRES: amount >= 0
     // MODIFIES: this
     // EFFECTS: adds amount to given balance
-    public boolean addToBalance(Currency currency, double amount) throws BalancesIsEmpty, BalanceNotFound {
+    public boolean addToBalance(Currency currency, double amount) throws BalanceNotFound, BalancesIsEmpty {
         try {
             if (amount >= 0) {
                 selectBalance(currency).incrementBalance(amount);

@@ -106,7 +106,7 @@ public class WalletTest {
             Wallet wallet1 = new Wallet("Test", 0);
             assertTrue(wallet1.getBalances().isEmpty());
             wallet1.buy(eth, 10);
-//            fail("This should not run.");
+            fail("This should not run.");
         } catch (BalanceNotFound e) {
             fail("This should not run.");
         } catch (BalancesIsEmpty e) {
@@ -118,9 +118,9 @@ public class WalletTest {
     public void testBuyExceptionBalanceNotFound() {
         try {
             Wallet wallet1 = new Wallet("Test", 0);
-            wallet1.addBalance(dotBal);
+            wallet1.addBalance(ethBal);
             assertFalse(wallet1.buy(dot, 10));
-//            fail("This should not run.");
+            fail("This should not run.");
         } catch (BalancesIsEmpty e) {
             fail("This should not run.");
         } catch (BalanceNotFound e) {
@@ -169,6 +169,35 @@ public class WalletTest {
             assertEquals(0, wallet.getDollarBalance());
         } catch (BalancesIsEmpty | BalanceNotFound e) {
             fail("This should not run.");
+        }
+    }
+
+    @Test
+    public void testSellExceptionBalancesIsEmpty() {
+        try {
+            Wallet wallet1 = new Wallet("Test", 0);
+            assertTrue(wallet1.getBalances().isEmpty());
+            assertFalse(wallet1.sell(eth, 10));
+            fail("This should not run.");
+        } catch (BalanceNotFound e) {
+            fail("This should not run.");
+        } catch (BalancesIsEmpty e) {
+            // Expected
+        }
+    }
+
+    @Test
+    public void testSellExceptionBalanceNotFound() {
+        try {
+            Wallet wallet1 = new Wallet("Test", 0);
+            wallet1.addBalance(dotBal);
+            wallet1.addToBalance(dot, 10);
+            assertFalse(wallet1.sell(btc, 10));
+            fail("This should not run.");
+        } catch (BalancesIsEmpty e) {
+            fail("This should not run.");
+        } catch (BalanceNotFound e) {
+            // Expected
         }
     }
 

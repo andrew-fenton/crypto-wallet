@@ -2,7 +2,6 @@ package ui;
 
 import exceptions.BalanceNotFound;
 import exceptions.BalancesIsEmpty;
-import exceptions.CurrencyNotFound;
 import model.*;
 
 import java.util.ArrayList;
@@ -160,22 +159,21 @@ public class WalletApp {
 
         try {
             Currency currency = matchCurrencyToInput(currencyInput);
-            double cost = (selectBalance(currencyInput).getCurrency().getPrice() * amount);
-            boolean sufficientFunds = (wallet.getDollarBalance() >= cost);
 
-            if (currency == null) {
-                System.err.println("Currency, " + currencyInput + ", was not found.");
-            } else if (!sufficientFunds) {
-                System.out.println("Insufficient funds.");
-            } else if (amount < 0) {
-                System.out.println("Amount must be greater than or equal to 0.");
+            if (currency != null) {
+                boolean sufficientFunds = (wallet.getDollarBalance() >= (currency.getPrice() * amount));
+
+                if (approveValues(sufficientFunds, amount)) {
+                    wallet.buy(currency, amount);
+                    System.out.println("Purchase completed.");
+                    showBalances();
+                }
+
             } else {
-                wallet.buy(currency, amount);
-                System.out.println("Purchase completed.");
-                showBalances();
+                System.err.println("Currency, " + currencyInput + ", was not found.");
             }
         } catch (BalancesIsEmpty | BalanceNotFound e) {
-            System.err.println("A balance for the given currency does not exist in wallet.");
+            System.out.println(e.getMessage());
         }
     }
 
@@ -191,21 +189,21 @@ public class WalletApp {
 
         try {
             Currency currency = matchCurrencyToInput(currencyInput);
-            boolean sufficientFunds = selectBalance(currencyInput).getBalance() >= amount;
 
-            if (currency == null) {
-                System.err.println("Currency, " + currencyInput + ", was not found.");
-            } else if (!sufficientFunds) {
-                System.out.println("Insufficient funds.");
-            } else if (amount < 0) {
-                System.out.println("Amount must be greater than or equal to 0.");
+            if (currency != null) {
+                boolean sufficientFunds = selectBalance(currencyInput).getBalance() >= amount;
+
+                if (approveValues(sufficientFunds, amount)) {
+                    wallet.sell(currency, amount);
+                    System.out.println("Sale completed.");
+                    showBalances();
+                }
+
             } else {
-                wallet.sell(currency, amount);
-                System.out.println("Sale completed.");
-                showBalances();
+                System.err.println("Currency, " + currencyInput + ", was not found.");
             }
         } catch (BalancesIsEmpty | BalanceNotFound e) {
-            System.err.println("Balance list is empty or balance does not exist in wallet.");
+            System.out.println(e.getMessage());
         }
     }
 
@@ -263,5 +261,19 @@ public class WalletApp {
             }
         }
         return null;
+    }
+
+    // EFFECTS: checks if there are sufficient funds to perform the transaction and if
+    //          amount >= 0
+    private boolean approveValues(boolean sufficientFunds, double amount) {
+        if (!sufficientFunds) {
+            System.out.println("Insufficient funds.");
+            return false;
+        } else if (amount < 0) {
+            System.out.println("Amount must be greater than or equal to 0.");
+            return false;
+        } else {
+            return true;
+        }
     }
 }
