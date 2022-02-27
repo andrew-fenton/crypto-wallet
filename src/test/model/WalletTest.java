@@ -186,7 +186,8 @@ public class WalletTest {
     public void testSellNegativeAmount() {
         wallet.deposit(10000);
         try {
-            assertFalse(wallet.buy(eth, -1));
+            wallet.addToBalance(eth, 10);
+            assertFalse(wallet.sell(eth, -1));
         } catch (BalancesIsEmpty | BalanceNotFound e) {
             fail("This should not run");
         }
