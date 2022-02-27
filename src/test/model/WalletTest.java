@@ -101,6 +101,16 @@ public class WalletTest {
     }
 
     @Test
+    public void testBuyNegativeAmount() {
+        wallet.deposit(10000);
+        try {
+            assertFalse(wallet.buy(eth, -1));
+        } catch (BalancesIsEmpty | BalanceNotFound e) {
+            fail("This should not run");
+        }
+    }
+
+    @Test
     public void testBuyExceptionBalancesIsEmpty() {
         try {
             Wallet wallet1 = new Wallet("Test", 0);
@@ -169,6 +179,16 @@ public class WalletTest {
             assertEquals(0, wallet.getDollarBalance());
         } catch (BalancesIsEmpty | BalanceNotFound e) {
             fail("This should not run.");
+        }
+    }
+
+    @Test
+    public void testSellNegativeAmount() {
+        wallet.deposit(10000);
+        try {
+            assertFalse(wallet.buy(eth, -1));
+        } catch (BalancesIsEmpty | BalanceNotFound e) {
+            fail("This should not run");
         }
     }
 
