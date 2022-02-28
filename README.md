@@ -12,5 +12,5 @@ This program models a digital cryptocurrency wallet that allows cryptocurrency o
 3. As a user, I want to be able to view the balances of my wallet in my account.
 4. As a user, I want to be able to buy cryptocurrency.
 5. As a user, I want to be able to sell cryptocurrency.
-6. As a user, I want to be able to save my Account to file.
-7. As a user, I want to be able to load my Account from file.
+6. As a user, I want to be able to save my Account to file and automatically save it on quit.
+7. As a user, I want to be give the option to load my Account from file on startup.

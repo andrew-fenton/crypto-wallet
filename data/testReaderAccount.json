@@ -1,0 +1,54 @@
+{
+  "wallets": [
+    {
+      "name": "Trading",
+      "id": 0,
+      "dollarBalance": 10,
+      "balances": [
+        {
+          "balance": 101,
+          "currency": {
+            "name": "ethereum",
+            "price": 10
+          }
+        },
+        {
+          "balance": 199,
+          "currency": {
+            "name": "polkadot",
+            "price": 11
+          }
+        }
+      ]
+    },
+    {
+      "name": "Savings",
+      "id": 1,
+      "dollarBalance": 19923,
+      "balances": [
+        {
+          "balance": 101,
+          "currency": {
+            "name": "bitcoin",
+            "price": 2100
+          }
+        },
+        {
+          "balance": 199,
+          "currency": {
+            "name": "polkadot",
+            "price": 11
+          }
+        },
+        {
+          "balance": 199,
+          "currency": {
+            "name": "ethereum",
+            "price": 10
+          }
+        }
+      ]
+    }
+  ],
+  "name": "Test"
+}

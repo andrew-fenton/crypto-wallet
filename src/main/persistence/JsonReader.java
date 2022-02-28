@@ -4,6 +4,8 @@ package persistence;
 // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
 
 import model.Account;
+import model.Balance;
+import model.Currency;
 import model.Wallet;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -12,12 +14,16 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Currency;
 import java.util.stream.Stream;
 
 // Represents a reader that reads Account from JSON data stored in file
 public class JsonReader {
     private String source;
+
+    // EFFECTS: constructs reader to read from source file
+    public JsonReader(String source) {
+        this.source = source;
+    }
 
     // EFFECTS: reads workroom from file and returns it;
     // throws IOException if an error occurs reading data from file
@@ -81,10 +87,15 @@ public class JsonReader {
     // MODIFIES: wallet
     // EFFECTS: parses balance from JSON object and add it to wallet
     private void addBalance(Wallet wallet, JSONObject jsonObject) {
-        String currencyName = jsonObject.getString("name");
-        double currencyPrice = jsonObject.getDouble("price");
+        double balance = jsonObject.getDouble("balance");
+        jsonObject = jsonObject.getJSONObject("currency");
+        String name = jsonObject.getString("name");
+        double price = jsonObject.getDouble("price");
+        Currency currency = new Currency(name, price);
+        Balance newBalance = new Balance(currency);
 
-
+        wallet.addBalance(newBalance);
+        newBalance.incrementBalance(balance);
     }
 
 }

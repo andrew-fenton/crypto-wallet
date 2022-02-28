@@ -3,18 +3,24 @@ package ui;
 import exceptions.BalanceNotFound;
 import exceptions.BalancesIsEmpty;
 import model.*;
+import persistence.JsonReader;
+import persistence.JsonWriter;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
 // Wallet application -- referenced TellerApp example
 // https://github.students.cs.ubc.ca/CPSC210/TellerApp
 public class WalletApp {
-
+    private static final String PATH = "./data/account.json";
     private Account account;
     private Wallet wallet;
     private ArrayList<Wallet> wallets;
     private Scanner input;
+    private JsonWriter jsonWriter;
+    private JsonReader jsonReader;
 
     // Currencies
     private Currency btc;
@@ -22,7 +28,7 @@ public class WalletApp {
     private Currency dot;
 
     // EFFECTS: runs the wallet application
-    public WalletApp() {
+    public WalletApp() throws FileNotFoundException {
         runWallet();
     }
 
@@ -35,9 +41,9 @@ public class WalletApp {
         while (active) {
             displayMenu();
             command = input.next();
-            command = command.toLowerCase();
 
             if (command.equalsIgnoreCase("quit")) {
+                saveToFile();
                 active = false;
             } else {
                 processCommand(command);
@@ -49,13 +55,16 @@ public class WalletApp {
     private void init() {
         input = new Scanner(System.in);
         input.useDelimiter("\n");
+        jsonWriter = new JsonWriter(PATH);
+        jsonReader = new JsonReader(PATH);
 
         // Initialize Currencies
         btc = new Currency("Bitcoin", 1000);
         eth = new Currency("Ethereum", 105.1);
         dot = new Currency("Polkadot", 10.5);
 
-        initRegister();
+        System.out.println("\t Would you like to load your previous account?");
+        processLoadOption(input.next());
     }
 
     // REQUIRES: must add all instantiated balances
@@ -107,7 +116,19 @@ public class WalletApp {
         System.out.println("\t Register - create new wallet");
         System.out.println("\t Wallets - show existing wallets");
         System.out.println("\t Select - change wallet");
+        System.out.println("\t Save - save current account");
         System.out.println("\t Quit");
+    }
+
+    // EFFECTS: processes load menu option
+    private void processLoadOption(String command) {
+        if (command.equalsIgnoreCase("yes")) {
+            loadFromFile();
+        } else if (command.equalsIgnoreCase("no")) {
+            initRegister();
+        } else {
+            System.out.println("Invalid: please type yes or no.");
+        }
     }
 
     // EFFECTS: checks if user input matches any option on the menu
@@ -126,6 +147,8 @@ public class WalletApp {
             showWallets();
         } else if (command.equalsIgnoreCase("select")) {
             selectWallet();
+        } else if (command.equalsIgnoreCase("save")) {
+            saveToFile();
         } else {
             System.out.println("Invalid input.");
         }
@@ -275,6 +298,31 @@ public class WalletApp {
             return false;
         } else {
             return true;
+        }
+    }
+
+    // EFFECTS: saves account to JSON file
+    private void saveToFile() {
+        try {
+            jsonWriter.open();
+            jsonWriter.write(account);
+            jsonWriter.close();
+            System.out.println("Saved " + account.getName() + " to " + PATH);
+        } catch (FileNotFoundException e) {
+            System.err.println("File could not be found at " + PATH);
+        }
+    }
+
+    // MODIFIES: this
+    // EFFECTS: loads account from JSON file
+    private void loadFromFile() {
+        try {
+            account = jsonReader.read();
+            wallets = account.getWallets();
+            wallet = account.getWallets().get(0);
+            System.out.println("Loaded " + account.getName() + " from " + PATH);
+        } catch (IOException e) {
+            System.err.println("Unable to read from file: " + PATH);
         }
     }
 }
