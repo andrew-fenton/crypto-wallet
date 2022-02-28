@@ -5,15 +5,15 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 // Tests for Ethereum class
-public class EthereumTest {
+public class CurrencyTest {
 
     private Wallet wallet;
-    private Ethereum eth;
+    private Currency eth;
     private Balance ethBal;
 
     @BeforeEach
     public void runBefore() {
-        eth = new Ethereum(10);
+        eth = new Currency("Ethereum", 10);
         wallet = new Wallet("Test", 1);
         ethBal = new Balance(eth);
         wallet.addBalance(ethBal);
@@ -21,12 +21,8 @@ public class EthereumTest {
 
     @Test
     public void testConstructor() {
+        assertEquals("Ethereum", eth.getName());
         assertEquals(10, eth.getPrice());
-    }
-
-    @Test
-    public void testGetName() {
-        assertEquals(eth.getName(), "Ethereum");
     }
 
 }

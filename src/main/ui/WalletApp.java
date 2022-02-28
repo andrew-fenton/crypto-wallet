@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 // Wallet application -- referenced TellerApp example
+// https://github.students.cs.ubc.ca/CPSC210/TellerApp
 public class WalletApp {
 
     private Account account;
@@ -16,9 +17,9 @@ public class WalletApp {
     private Scanner input;
 
     // Currencies
-    private Bitcoin btc;
-    private Ethereum eth;
-    private Polkadot dot;
+    private Currency btc;
+    private Currency eth;
+    private Currency dot;
 
     // EFFECTS: runs the wallet application
     public WalletApp() {
@@ -50,9 +51,9 @@ public class WalletApp {
         input.useDelimiter("\n");
 
         // Initialize Currencies
-        btc = new Bitcoin(1000);
-        eth = new Ethereum(105.1);
-        dot = new Polkadot(10.5);
+        btc = new Currency("Bitcoin", 1000);
+        eth = new Currency("Ethereum", 105.1);
+        dot = new Currency("Polkadot", 10.5);
 
         initRegister();
     }
