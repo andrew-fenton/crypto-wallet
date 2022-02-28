@@ -268,13 +268,14 @@ public class WalletApp {
     }
 
     // EFFECTS: matches string input to existing currency and returns its respective balance in wallet
-    private Balance selectBalance(String input) throws BalancesIsEmpty {
+    //          throws
+    private Balance selectBalance(String input) throws BalanceNotFound {
         for (Balance b : wallet.getBalances()) {
             if (b.getCurrency().getName().equalsIgnoreCase(input)) {
                 return b;
             }
         }
-        throw new BalancesIsEmpty();
+        throw new BalanceNotFound("Input could not be matched to: " + input);
     }
 
     // EFFECTS: matches a string input to a currency and returns it
