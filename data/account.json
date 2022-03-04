@@ -1,89 +1,31 @@
 {
     "name": "Andrew",
-    "wallets": [
-        {
-            "dollarBalance": 0,
-            "balances": [
-                {
-                    "balance": 0,
-                    "currency": {
-                        "price": 1000,
-                        "name": "Bitcoin"
-                    }
-                },
-                {
-                    "balance": 0,
-                    "currency": {
-                        "price": 105.1,
-                        "name": "Ethereum"
-                    }
-                },
-                {
-                    "balance": 0,
-                    "currency": {
-                        "price": 10.5,
-                        "name": "Polkadot"
-                    }
+    "wallets": [{
+        "dollarBalance": 0,
+        "balances": [
+            {
+                "balance": 0,
+                "currency": {
+                    "price": 1000,
+                    "name": "Bitcoin"
                 }
-            ],
-            "name": "A",
-            "id": 0
-        },
-        {
-            "dollarBalance": 47500,
-            "balances": [
-                {
-                    "balance": 42,
-                    "currency": {
-                        "price": 1000,
-                        "name": "Bitcoin"
-                    }
-                },
-                {
-                    "balance": 0,
-                    "currency": {
-                        "price": 105.1,
-                        "name": "Ethereum"
-                    }
-                },
-                {
-                    "balance": 1000,
-                    "currency": {
-                        "price": 10.5,
-                        "name": "Polkadot"
-                    }
+            },
+            {
+                "balance": 0,
+                "currency": {
+                    "price": 105.1,
+                    "name": "Ethereum"
                 }
-            ],
-            "name": "B",
-            "id": 1
-        },
-        {
-            "dollarBalance": 0,
-            "balances": [
-                {
-                    "balance": 0,
-                    "currency": {
-                        "price": 1000,
-                        "name": "Bitcoin"
-                    }
-                },
-                {
-                    "balance": 0,
-                    "currency": {
-                        "price": 105.1,
-                        "name": "Ethereum"
-                    }
-                },
-                {
-                    "balance": 0,
-                    "currency": {
-                        "price": 10.5,
-                        "name": "Polkadot"
-                    }
+            },
+            {
+                "balance": 0,
+                "currency": {
+                    "price": 10.5,
+                    "name": "Polkadot"
                 }
-            ],
-            "name": "C",
-            "id": 2
-        }
-    ]
+            }
+        ],
+        "name": "A",
+        "id": 0
+    }]
 }
