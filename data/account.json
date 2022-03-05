@@ -1,0 +1,31 @@
+{
+    "name": "Andrew",
+    "wallets": [{
+        "dollarBalance": 0,
+        "balances": [
+            {
+                "balance": 0,
+                "currency": {
+                    "price": 1000,
+                    "name": "Bitcoin"
+                }
+            },
+            {
+                "balance": 0,
+                "currency": {
+                    "price": 105.1,
+                    "name": "Ethereum"
+                }
+            },
+            {
+                "balance": 0,
+                "currency": {
+                    "price": 10.5,
+                    "name": "Polkadot"
+                }
+            }
+        ],
+        "name": "A",
+        "id": 0
+    }]
+}

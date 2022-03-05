@@ -1,8 +1,14 @@
 package model;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writeable;
+
 import java.util.ArrayList;
 
-public class Account {
+// Used code from:
+// https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+public class Account implements Writeable {
     private String name;
     private ArrayList<Wallet> wallets;
 
@@ -29,6 +35,24 @@ public class Account {
         return this.name;
     }
 
+    @Override
+    // EFFECTS: returns Account as a JSON object
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("wallets", walletsToJson());
 
+        return json;
+    }
 
+    // EFFECTS: returns wallets in this as a JSON array
+    private JSONArray walletsToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Wallet w : wallets) {
+            jsonArray.put(w.toJson());
+        }
+
+        return jsonArray;
+    }
 }

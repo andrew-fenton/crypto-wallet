@@ -7,11 +7,11 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BalanceTest {
 
     private Balance balance;
-    private Ethereum eth;
+    private Currency eth;
 
     @BeforeEach
     public void runBefore() {
-        eth = new Ethereum(10);
+        eth = new Currency("Ethereum", 10);
         balance = new Balance(eth);
     }
 

@@ -1,6 +1,13 @@
 package model;
 
-public class Balance {
+import org.json.JSONObject;
+import persistence.Writeable;
+
+// Used code from:
+// https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+
+// Represents a balance of specific currency
+public class Balance implements Writeable {
     private Currency currency;
     private double balance;
 
@@ -32,5 +39,14 @@ public class Balance {
     // EFFECTS: returns balance
     public double getBalance() {
         return balance;
+    }
+
+    @Override
+    // EFFECTS: returns this as a JSON object
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("currency", currency.toJson());
+        json.put("balance", balance);
+        return json;
     }
 }

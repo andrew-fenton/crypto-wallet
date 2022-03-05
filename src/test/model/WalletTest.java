@@ -20,9 +20,9 @@ public class WalletTest {
     @BeforeEach
     public void runBefore() {
         wallet = new Wallet("Test", 1);
-        eth = new Ethereum(10);
-        dot = new Polkadot(5);
-        btc = new Bitcoin(100);
+        eth = new Currency("Ethereum", 10);
+        dot = new Currency("Polkadot",5);
+        btc = new Currency("Bitcoin",100);
         ethBal = new Balance(eth);
         dotBal = new Balance(dot);
         btcBal = new Balance(btc);

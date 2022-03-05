@@ -2,15 +2,21 @@ package model;
 
 import exceptions.BalanceNotFound;
 import exceptions.BalancesIsEmpty;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import persistence.Writeable;
 
 import java.util.ArrayList;
 
+// Used code from:
+// https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
+
 // Represents a cryptocurrency wallet
-public class Wallet {
+public class Wallet implements Writeable {
     private String name;
     private int id;
-    private ArrayList<Balance> balances;
     private double dollarBalance;
+    private ArrayList<Balance> balances;
 
     // EFFECTS: creates a new crypto wallet with name, ID, and balance of 0.
     public Wallet(String name, int id) {
@@ -133,4 +139,27 @@ public class Wallet {
             throw e;
         }
     }
+
+    @Override
+    public JSONObject toJson() {
+        JSONObject json = new JSONObject();
+        json.put("name", name);
+        json.put("id", id);
+        json.put("dollarBalance", dollarBalance);
+        json.put("balances", balancesToJson());
+
+        return json;
+    }
+
+    // EFFECTS: returns balances in this as a JSON array
+    private JSONArray balancesToJson() {
+        JSONArray jsonArray = new JSONArray();
+
+        for (Balance b : balances) {
+            jsonArray.put(b.toJson());
+        }
+
+        return jsonArray;
+    }
+
 }
