@@ -162,4 +162,10 @@ public class Wallet implements Writeable {
         return jsonArray;
     }
 
+    // EFFECTS: returns wallet name for JList GUI
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }
