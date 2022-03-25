@@ -18,6 +18,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.List;
 
+// Represents GUI of an account
 public class AccountUI extends JFrame {
     private static final String PATH = "./data/account.json";
     private static final int WIDTH = 1000;
@@ -39,6 +40,7 @@ public class AccountUI extends JFrame {
     private Currency eth;
     private Currency dot;
 
+    // EFFECTS: constructs an account GUI
     public AccountUI() {
         super("Cryptocurrency Wallet");
 
@@ -301,6 +303,7 @@ public class AccountUI extends JFrame {
         return null;
     }
 
+    // EFFECTS: runs account GUI
     public static void main(String[] args) {
         new AccountUI();
     }
@@ -310,10 +313,13 @@ public class AccountUI extends JFrame {
     */
     private class AddWalletAction extends AbstractAction {
 
+        // EFFECTS: constructs an add wallet action
         public AddWalletAction() {
             super("Add Wallet");
         }
 
+        // MODIFIES: this
+        // EFFECTS: creates a new wallet and adds it to account
         @Override
         public void actionPerformed(ActionEvent e) {
             String name = JOptionPane.showInputDialog(null,
@@ -335,10 +341,14 @@ public class AccountUI extends JFrame {
      */
     private class DepositAction extends AbstractAction {
 
+        // EFFECTS: constructs a deposit action
         public DepositAction() {
             super("Deposit");
         }
 
+        // REQUIRES: amount must be a number and >= 0
+        // MODIFIES: this
+        // EFFECTS: adds amount to selectedWallet dollarBalance
         @Override
         public void actionPerformed(ActionEvent e) {
             double amount = Double.parseDouble(JOptionPane.showInputDialog(null,
@@ -362,10 +372,14 @@ public class AccountUI extends JFrame {
      */
     private class BuyAction extends AbstractAction {
 
+        // EFFECTS: constructs a buy action
         public BuyAction() {
             super("Buy");
         }
 
+        // REQUIRES: amount must be a number and >= 0
+        // MODIFIES: this
+        // EFFECTS: conducts a purchase of cryptocurrency
         @Override
         public void actionPerformed(ActionEvent e) {
             String[] currencies = getCurrencyNames();
@@ -405,10 +419,14 @@ public class AccountUI extends JFrame {
      */
     private class SellAction extends AbstractAction {
 
+        // EFFECTS: constructs a sell action
         public SellAction() {
             super("Sell");
         }
 
+        // REQUIRES: amount must be a number and >= 0
+        // MODIFIES: this
+        // EFFECTS: conducts a sale of cryptocurrency
         @Override
         public void actionPerformed(ActionEvent e) {
             String[] currencies = getCurrencyNames();
