@@ -346,4 +346,9 @@ public class WalletTest {
             // Expected
         }
     }
+
+    @Test
+    public void testToString() {
+        assertEquals("Test", wallet.toString());
+    }
 }
