@@ -31,4 +31,10 @@ public class Currency {
 
         return json;
     }
+
+    // EFFECTS: returns currency name for JList GUI
+    @Override
+    public String toString() {
+        return name;
+    }
 }

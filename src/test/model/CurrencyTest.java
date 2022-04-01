@@ -25,4 +25,9 @@ public class CurrencyTest {
         assertEquals(10, eth.getPrice());
     }
 
+    @Test
+    public void testToString() {
+        assertEquals("Ethereum", eth.toString());
+    }
+
 }

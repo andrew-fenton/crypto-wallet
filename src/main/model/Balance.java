@@ -41,8 +41,8 @@ public class Balance implements Writeable {
         return balance;
     }
 
-    @Override
     // EFFECTS: returns this as a JSON object
+    @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("currency", currency.toJson());

@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import persistence.Writeable;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 // Used code from:
 // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
@@ -31,6 +32,7 @@ public class Wallet implements Writeable {
     // EFFECTS: adds amount of money to wallet total balance
     public void deposit(double amount) {
         this.dollarBalance += amount;
+        EventLog.getInstance().logEvent(new Event("Deposited $" + amount + " into account."));
     }
 
     // REQUIRES: amount >= 0
@@ -48,6 +50,13 @@ public class Wallet implements Writeable {
                 if (dollarBalance >= (currency.getPrice() * amount)) {
                     balance.incrementBalance(amount);
                     dollarBalance -= (currency.getPrice() * amount);
+                    EventLog.getInstance().logEvent(new Event(
+                            "Wallet, "
+                            + this.name
+                            + ", purchased "
+                            + amount
+                            + " of "
+                            + currency.getName()));
                     return true;
                 }
             }
@@ -73,6 +82,13 @@ public class Wallet implements Writeable {
                 if (balance.getBalance() >= amount) {
                     balance.reduceBalance(amount);
                     dollarBalance += (currency.getPrice() * amount);
+                    EventLog.getInstance().logEvent(new Event(
+                            "Wallet, "
+                                    + this.name
+                                    + ", sold "
+                                    + amount
+                                    + " of "
+                                    + currency.getName()));
                     return true;
                 }
             }
@@ -160,6 +176,12 @@ public class Wallet implements Writeable {
         }
 
         return jsonArray;
+    }
+
+    // EFFECTS: returns wallet name for JList GUI
+    @Override
+    public String toString() {
+        return name;
     }
 
 }
