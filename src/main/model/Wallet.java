@@ -7,7 +7,6 @@ import org.json.JSONObject;
 import persistence.Writeable;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 // Used code from:
 // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo

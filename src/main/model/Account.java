@@ -5,7 +5,6 @@ import org.json.JSONObject;
 import persistence.Writeable;
 
 import java.util.ArrayList;
-import java.util.Observable;
 
 // Used code from:
 // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
@@ -37,8 +36,8 @@ public class Account implements Writeable {
         return this.name;
     }
 
-    @Override
     // EFFECTS: returns Account as a JSON object
+    @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("name", name);
