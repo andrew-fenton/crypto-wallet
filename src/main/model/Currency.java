@@ -1,9 +1,10 @@
 package model;
 
 import org.json.JSONObject;
+import persistence.Writeable;
 
 // Represents a currency
-public class Currency {
+public class Currency implements Writeable {
     private String name;
     private double price;
 
@@ -24,6 +25,7 @@ public class Currency {
     }
 
     // EFFECTS: returns currency as JSON object
+    @Override
     public JSONObject toJson() {
         JSONObject json = new JSONObject();
         json.put("name", name);
