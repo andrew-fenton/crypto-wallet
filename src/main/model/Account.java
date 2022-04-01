@@ -5,6 +5,7 @@ import org.json.JSONObject;
 import persistence.Writeable;
 
 import java.util.ArrayList;
+import java.util.Observable;
 
 // Used code from:
 // https://github.students.cs.ubc.ca/CPSC210/JsonSerializationDemo
@@ -22,6 +23,7 @@ public class Account implements Writeable {
     // EFFECTS: adds a given wallet to wallets
     public boolean addWallet(Wallet wallet) {
         wallets.add(wallet);
+        EventLog.getInstance().logEvent(new Event("Added a new wallet to account: " + wallet));
         return true;
     }
 

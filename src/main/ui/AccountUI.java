@@ -2,10 +2,8 @@ package ui;
 
 import exceptions.BalanceNotFound;
 import exceptions.BalancesIsEmpty;
-import model.Account;
-import model.Balance;
-import model.Currency;
-import model.Wallet;
+import model.*;
+import model.Event;
 import persistence.JsonReader;
 import persistence.JsonWriter;
 
@@ -16,6 +14,7 @@ import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 
 // Represents GUI of an account
@@ -107,6 +106,13 @@ public class AccountUI extends JFrame {
         }
     }
 
+    // EFFECTS: prints log of actions performed while running
+    private void printLog() {
+        for (Event e : EventLog.getInstance()) {
+            System.out.println(e.getDate() + ": " + e.getDescription());
+        }
+    }
+
     // EFFECTS: asks to save account to file on close
     private void askToSave() {
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
@@ -124,6 +130,7 @@ public class AccountUI extends JFrame {
                     saveToFile();
                 }
 
+                printLog();
                 dispose();
             }
         });

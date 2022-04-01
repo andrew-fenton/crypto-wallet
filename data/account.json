@@ -2,7 +2,7 @@
     "name": "Andrew",
     "wallets": [
         {
-            "dollarBalance": 9887.900000000001,
+            "dollarBalance": 10887.900000000001,
             "balances": [
                 {
                     "balance": 0,
@@ -84,6 +84,34 @@
             ],
             "name": "C",
             "id": 2
+        },
+        {
+            "dollarBalance": 9000,
+            "balances": [
+                {
+                    "balance": 1,
+                    "currency": {
+                        "price": 1000,
+                        "name": "Bitcoin"
+                    }
+                },
+                {
+                    "balance": 0,
+                    "currency": {
+                        "price": 105.1,
+                        "name": "Ethereum"
+                    }
+                },
+                {
+                    "balance": 0,
+                    "currency": {
+                        "price": 10.5,
+                        "name": "Polkadot"
+                    }
+                }
+            ],
+            "name": "D",
+            "id": 3
         }
     ]
 }
