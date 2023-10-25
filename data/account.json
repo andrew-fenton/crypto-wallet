@@ -2,17 +2,17 @@
     "name": "name",
     "wallets": [
         {
-            "dollarBalance": 4000,
+            "dollarBalance": 894.9,
             "balances": [
                 {
-                    "balance": 6,
+                    "balance": 0,
                     "currency": {
                         "price": 1000,
                         "name": "Bitcoin"
                     }
                 },
                 {
-                    "balance": 0,
+                    "balance": 1,
                     "currency": {
                         "price": 105.1,
                         "name": "Ethereum"

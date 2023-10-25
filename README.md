@@ -14,7 +14,6 @@ This program models a digital cryptocurrency wallet that allows cryptocurrency o
 5. As a user, I want to be able to save my Account to file and automatically save it on quit.
 6. As a user, I want to be give the option to load my Account from file on startup.
 
-
 ## Phase 4: Task 2
 Thu Mar 31 18:57:21 PDT 2022: Added a new wallet to account: Default <br>
 Thu Mar 31 18:57:29 PDT 2022: Deposited $99384.0 into account. <br>
