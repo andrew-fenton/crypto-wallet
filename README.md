@@ -2,7 +2,7 @@
 
 ## Introduction
 
-Nearing the start of 2021, I started to research a lot about blockchain technology and its applications, one of them being cryptocurrency. Since then, I've been quite intrigued by the extensive applications and capabilities of cryptocurrency. Therefore, I decided to base this project on my interest and passion for cryptocurrency by programming a cryptocurrency wallet application.
+Nearing the start of 2021, I started to research a lot about blockchain technology and its applications, one of them being cryptocurrency. Since then, I've been quite intrigued by the extensive applications and capabilities of cryptocurrency. Therefore, I decided to base this project on my interest and passion for cryptocurrency by programming a cryptocurrency wallet application in Java.
 
 This program models a digital cryptocurrency wallet that allows cryptocurrency owners to store their cryptocurrency in a wallet. The wallet also allows users to buy and sell cryptocurrency.
 
